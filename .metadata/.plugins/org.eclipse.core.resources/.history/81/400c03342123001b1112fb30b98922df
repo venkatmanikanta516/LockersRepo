@@ -1,0 +1,26 @@
+package com.mJava;
+
+import java.io.*;
+
+public class fileHandleDemo {
+
+	public static void main(String[] args) throws IOException
+	{
+		
+File filename=new File("abc.txt");
+//
+//FileOutputStream fos=new FileOutputStream(filename);
+//fos.write(13);
+//fos.flush();
+//fos.close();
+
+ 
+FileInputStream fis=new FileInputStream(filename);
+int Data =fis.read();
+
+while(Data!=-1)
+System.out.println(""+Data);
+fis.close();
+	}
+
+}

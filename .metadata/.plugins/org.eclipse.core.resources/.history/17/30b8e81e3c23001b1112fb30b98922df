@@ -1,0 +1,35 @@
+package com.mJava;
+
+import java.io.*;
+
+public class fileHandleDemo {
+
+	public static void main(String[] args) throws IOException
+	{
+		
+		System.out.println("Enter which file you Want : ");
+		
+		Scanner sc=new Scanner(System.in)
+		
+File filename=new File("abc.txt");
+//
+//FileOutputStream fos=new FileOutputStream(filename);
+//fos.write(13);
+//fos.flush();
+//fos.close();
+boolean isFileExist=filename.exists();
+ 
+FileInputStream fis=new FileInputStream(filename);
+
+int Data;
+while((Data=fis.read())!=-1)
+{
+  
+
+
+System.out.println(""+(char)Data);
+}
+fis.close();
+	}
+
+}

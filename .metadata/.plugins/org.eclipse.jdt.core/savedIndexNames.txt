@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+E:\MJava\simplilern Project\FileHandling\.metadata\.plugins\org.eclipse.jdt.core
+3157612211.index
+2655698050.index
