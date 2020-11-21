@@ -30,17 +30,19 @@ void  optionsMethod()
 {
 	String option=null;
 	try {
-		System.out.println("1.Add File\n2.Delete File\n3.Search File\n4.Files List");
-		System.out.println("Select above options  which operation do you want :");
+		//System.out.println("==================================================================================");
+		System.out.println("\n$***** Main Menu *****$");
+		System.out.println("\n1.Files List\n2.Add File\n3.Delete File\n4.Search File\n5.Exist");
+		System.out.println("\nAbove options to select which operation do you want :");
 		
 		option=sc.next();
 		
 		 
-		  if(option.equals("1")||option.equals("2")||option.equals("3")||option.equals("4"))
+		  if(option.equals("0")||option.equals("1")||option.equals("2")||option.equals("3")||option.equals("4")||option.equals("5"))
 			optionsSwitchMethod(Integer.parseInt(option));
 		else
 		{
-			System.out.println("## Alert : PLEASE SELECT VALID OPTION");
+			System.out.println("\n\n## Alert : PLEASE SELECT VALID OPTION\n\n");
 			optionsMethod();
 		}
 			
@@ -61,38 +63,82 @@ void optionsSwitchMethod(int Option)
 {
 	switch(Option)
 	{
+	/*
+	 * case 0: newFolderMethod(); break;
+	 */
 	case 1:
-		 addFileMethod();
-		break;
+		FilesListMethod();
+		 break;
 	case 2:
-		 deleteFileMethod();
-		break;
+		addFileMethod();
+		 break;
 	case 3:
-		 searchFileMethod();
-		break;
+		deleteFileMethod();
+		 break;
 	case 4:
-		 FilesListMethod();
+		searchFileMethod();
 		break;
-		default :
+	case 5:
+		exitMethod();
+		break;
+		 default :
 			System.out.println("No Option Available.Try Again");
 			 
 		
 	}
 }
+void newFolderMethod()
+{
+	try {
+		System.out.println("Enter the path to create a directory: ");
+	      Scanner sc = new Scanner(System.in);
+	      String path = sc.next();
+	      System.out.println("Enter the name of the desired a directory: ");
+	      String foldername=sc.next();
+	      path = path+foldername;
+	      //Creating a File object
+	      File file = new File(path);
+	      //Creating the directory
+	      boolean bool = file.mkdir();
+	      if(bool){
+	         System.out.println("Directory created successfully");
+	         optionsMethod();
+	      }
+	      else if(file.exists())
+	      {
+	    	  
+	    	  System.out.println("Directory Already Available.CheckOnce");
+	    	  optionsMethod();
+	      }
+	      else{
+	         System.out.println("Sorry couldn’t create specified directory");
+	         optionsMethod();
+	      }
+		
+	} catch (Exception e) {
+		System.out.println("Exception at newFolderMethod with error Msg : "+e.getMessage());
+	}
+}
+
 void addFileMethod()
 {
 	String isYorN="N";
 	try {
 		
 		String filename="";
-		 
-		System.out.println("Enter File Name to Add : ");
+System.out.println("Enter Path Directory : ");
 		
 		filename=sc.next();
 		
+		System.out.println("Patth is :  "+filename);
+		 
+		System.out.println("Enter File Name : ");
 		
+		filename=filename+sc.next();
+		 
 		
 		File file=new File(filename);
+		
 		 
 		if(file.exists())
 		{
@@ -107,17 +153,17 @@ void addFileMethod()
 			FOS.write(8);
 			FOS.flush();
 			FOS.close();
-			System.out.println("File Created");
+			System.out.println("File Created at location "+file.getPath());
 		
-
+			System.out.println("\nFor Main Menu Press 'Y' or to Add another File Press 'N' ");
 			boolean IsYorN= NavigateMainMethod();
 			if(IsYorN==true)
 			{
 				
 				optionsMethod()	;
 			}
-			//else
-				//addFileMethod();
+			 else
+				 addFileMethod();
 			 
 		}
 		 
@@ -142,12 +188,15 @@ void deleteFileMethod()
 		{
 			boolean isDeleted= file.delete();
 			 if(isDeleted==true)
-			System.out.println("File Deleted");
+			 {
+				 System.out.println("File Deleted"); 
+			 }
+			
 			 else
 			 {
 				 System.out.println("File Not Deleted"); 
 			 }
-		
+			 System.out.println("For Main Menu Press 'Y' other wise Press 'N' ");
 			boolean IsYorN= NavigateMainMethod();
 		if(IsYorN==true)
 		{
@@ -173,7 +222,20 @@ void deleteFileMethod()
 void searchFileMethod()
 {
 	try {
-		System.out.println("Search file Method Called");
+		int count=0;
+		System.out.println("Enter file name to Search : ");
+	String filename=sc.next();
+		File f=new File(filename);
+	 if(f.exists())
+		 
+	 {
+		 System.out.println("## "+filename+" file is Avilable\n\n");
+	 }
+	 else
+	 {
+		 System.out.println("## "+filename+" file Not Found.\n\n");
+	 }
+		optionsMethod();
 		
 	} catch (Exception e) {
 		System.out.println("Exception at searchFileMethod with error Msg : "+e.getMessage());
@@ -186,13 +248,24 @@ boolean NavigateMainMethod()
 	boolean IsYorN=false;
 	String YorN=null;
 	try {
-System.out.println("For Menu Press 'Y' other wise Press 'N'");
+//System.out.println("For Menu Press 'Y' other wise Press 'N' ");
 		
 		YorN=sc.next();
 		 
 		if(YorN.toLowerCase().equals("y"))
 		{
 			IsYorN=true;
+		}
+		else if(YorN.toLowerCase().equals("n"))
+		{
+			 
+			IsYorN=false; 
+		}
+		else
+		{
+			IsYorN=false; 
+			System.out.println("## Alert : Invalid Option.Try again");
+			NavigateMainMethod();
 		}
 		
 	} catch (Exception e) {
@@ -201,33 +274,121 @@ System.out.println("For Menu Press 'Y' other wise Press 'N'");
 	}
 	return IsYorN;
 }
-
+void FilesListExitMethod()
+{
+	try {
+		 String  YorN=null;
+		 
+		 System.out.println("\nFor Main menu Press'Y' or to Find Another Path Press 'N' : ");
+		 YorN=sc.next();
+		 if(YorN.toLowerCase().equals("y"))
+			 optionsMethod();
+		 else  if(YorN.toLowerCase().equals("n"))
+			 FilesListMethod();
+		 else
+		 {
+			 System.out.println("## Alert: Please Select Valid Option : ");
+				
+			 FilesListExitMethod();
+		 }
+	} catch (Exception e) {
+		System.out.println("Exception at FilesListExitMethod with error Msg : "+e.getMessage());
+	} 
+	
+}
 
 void FilesListMethod()
 {
-	File f=new File("E:\\MJava\\simplilern Project\\FileHandling\\FileHandling_Project");
-	String[] s=f.list();
-	 
-	for (String a:s)
-	{
-		if(a.contains("bin"))
+	try {
+		System.out.println("Enter Path to show Avialable files in the Directory : ");
+		String fileDirectory=sc.next();
+		if(fileDirectory.isEmpty())
 		{
-			System.out.println("yesssssssssss i found it");	
+			System.out.println("##### Please enter file Directory.");
+			FilesListMethod();
 		}
-		System.out.println(a);
+		 
+		else
+		{
+			 
+			File f=new File(fileDirectory);
+			if(f.exists())
+			{
+				String[] s=f.list();
+				File[] sq=f.listFiles();
+			 
+				 Arrays.sort(sq);
+				 System.out.println("\n$$$ Below are the Available files in the Directory of  "+fileDirectory+" $$$\n");
+				 for(File file:sq)
+			     {
+			         System.out.println(file.getName());
+			     }
+			/*	 System.out.println("=============================================================================");
+				for (String a:s)
+				{
+				 
+					 
+					System.out.println(a);
+					
+				}*/
+				
+				 FilesListExitMethod();
+				
+					
+			}
+			else
+			{
+				System.out.println("\nInvalid File Path.Check Once and Try Again.\n");
+				FilesListMethod();
+			}
+			
+		}
+		
+	} catch (Exception e) {
+		System.out.println("Exception at FilesListMethod with error Msg : "+e.getMessage());
 		
 	}
+	
+	
 }
+ 
+void exitMethod()
+{
+	System.out.println("Are you sure want to exist Press 'Y'. otherwise press 'N' to Main menu");
+	String YorN=sc.next();
+	 
+	if(YorN.toLowerCase().equals("y"))
+	{
+		System.out.println("$$**** THANK YOU ****$$");
+		return;	
+	}
+	else if(YorN.toLowerCase().equals("n"))
+	{
+		
+		optionsMethod();
+		 
+	}
+	else
+	{
+		System.out.println("## Alert : Invalid Option.Try again");
+		exitMethod();
+	}
+		
+			
+	
+}
+
 public static void main(String[] args) throws IOException
 	{
 	
-	System.out.println("###### Lockers Pvt. Ltd. ######");
+	System.out.println("$******** Welcome to LockedMe.com ********$\n");
+	System.out.println("$******** Developed By : Venkata Manikanta ********$\n");
 		
 		try
 		{
 			fileHandleDemo FHD=new fileHandleDemo();
-			
-		  FHD.optionsMethod();
+			//FHD.FilesListMethod();
+		   FHD.optionsMethod();
 		 
 			//FHD.FilesListMethod();
 		  
